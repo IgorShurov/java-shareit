@@ -3,7 +3,6 @@ package ru.practicum.shareit.user;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.UserAlreadyExistException;
 import ru.practicum.shareit.exception.UserNotFoundException;
-import ru.practicum.shareit.item.Item;
 
 import java.util.ArrayList;
 import java.util.HashMap;
