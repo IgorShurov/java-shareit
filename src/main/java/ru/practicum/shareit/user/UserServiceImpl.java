@@ -7,36 +7,41 @@ import ru.practicum.shareit.user.dto.UserDto;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static ru.practicum.shareit.user.UserMapper.toUser;
+import static ru.practicum.shareit.user.UserMapper.toUserDto;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserStorage userStorage;
-    private final UserMapper mapper;
 
     public List<UserDto> getUsers() {
         return userStorage.getUsers().stream()
-                .map(mapper::toUserDto)
+                .map(UserMapper::toUserDto)
                 .collect(toList());
     }
 
+    @Override
     public UserDto getUserById(Long id) {
-        return mapper.toUserDto(userStorage.getUserById(id));
+        return toUserDto(userStorage.getUserById(id));
     }
 
+    @Override
     public UserDto create(UserDto userDto) {
-        return mapper.toUserDto(userStorage.create(mapper.toUser(userDto)));
+        return toUserDto(userStorage.create(toUser(userDto)));
     }
 
+    @Override
     public UserDto update(UserDto userDto, Long id) {
         if (userDto.getId() == null) {
             userDto.setId(id);
         }
-        return mapper.toUserDto(userStorage.update(mapper.toUser(userDto)));
+        return toUserDto(userStorage.update(toUser(userDto)));
     }
 
+    @Override
     public UserDto delete(Long userId) {
-        return mapper.toUserDto(userStorage.delete(userId));
+        return toUserDto(userStorage.delete(userId));
     }
 }

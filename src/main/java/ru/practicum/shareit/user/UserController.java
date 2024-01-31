@@ -3,7 +3,7 @@ package ru.practicum.shareit.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.ItemServiceImpl;
+import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import static ru.practicum.shareit.user.UserValidator.isUserDtoValid;
@@ -19,8 +19,8 @@ import java.util.List;
 @RequestMapping(path = "/users")
 public class UserController {
 
-    private final UserServiceImpl userService;
-    private final ItemServiceImpl itemService;
+    private final UserService userService;
+    private final ItemService itemService;
 
     @GetMapping
     public List<UserDto> getUsers() {

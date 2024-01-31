@@ -2,7 +2,10 @@ package ru.practicum.shareit.request.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
@@ -10,8 +13,11 @@ import java.time.LocalDateTime;
  */
 @Data
 @AllArgsConstructor
+@Valid
 public class ItemRequestDto {
+    @NotBlank
     private String description;
+    @NotBlank
     private String requestorName;
     private LocalDateTime created;
 }

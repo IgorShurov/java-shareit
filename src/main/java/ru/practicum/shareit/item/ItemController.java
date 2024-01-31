@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.user.UserServiceImpl;
+import ru.practicum.shareit.user.UserService;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ import static ru.practicum.shareit.utilitary.Constants.OWNER_HEADER;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final ItemServiceImpl itemService;
-    private final UserServiceImpl userService;
+    private final ItemService itemService;
+    private final UserService userService;
 
     @GetMapping("/{itemId}")
     public ItemDto getItemById(@PathVariable Long itemId) {

@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.ItemNotFoundException;
 
@@ -38,8 +39,8 @@ public class InMemoryItemStorage implements ItemStorage {
         if (!text.isBlank()) {
             searchItems = items.values().stream()
                     .filter(Item::getAvailable)
-                    .filter(item -> item.getName().toLowerCase().contains(text) ||
-                            item.getDescription().toLowerCase().contains(text))
+                    .filter(item -> StringUtils.containsIgnoreCase(item.getName(), text) ||
+                            StringUtils.containsIgnoreCase(item.getDescription(), text))
                     .collect(toList());
         }
         return searchItems;
@@ -58,14 +59,15 @@ public class InMemoryItemStorage implements ItemStorage {
         if (!items.containsKey(item.getId())) {
             throw new ItemNotFoundException(item.getId());
         }
+        Item oldItem = items.get(item.getId());
         if (item.getName() == null) {
-            item.setName(items.get(item.getId()).getName());
+            item.setName(oldItem.getName());
         }
         if (item.getDescription() == null) {
-            item.setDescription(items.get(item.getId()).getDescription());
+            item.setDescription(oldItem.getDescription());
         }
         if (item.getAvailable() == null) {
-            item.setAvailable(items.get(item.getId()).getAvailable());
+            item.setAvailable(oldItem.getAvailable());
         }
         isItemValid(item);
         items.put(item.getId(), item);

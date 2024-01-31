@@ -3,6 +3,7 @@ package ru.practicum.shareit.user;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.UserAlreadyExistException;
 import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.item.Item;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,17 +51,18 @@ public class InMemoryUserStorage implements UserStorage {
         if (!users.containsKey(user.getId())) {
             throw new UserNotFoundException(user.getId());
         }
+        User oldUser = users.get(user.getId());
         if (user.getName() == null) {
-            user.setName(users.get(user.getId()).getName());
+            user.setName(oldUser.getName());
         }
         if (user.getEmail() == null) {
-            user.setEmail(users.get(user.getId()).getEmail());
+            user.setEmail(oldUser.getEmail());
         }
         if (users.values().stream()
                 .filter(u -> u.getEmail().equals(user.getEmail()))
                 .allMatch(u -> u.getId().equals(user.getId()))) {
-                isUserValid(user);
-                users.put(user.getId(), user);
+            isUserValid(user);
+            users.put(user.getId(), user);
         } else {
             throw new UserAlreadyExistException(user.getEmail());
         }
