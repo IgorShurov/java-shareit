@@ -50,13 +50,13 @@ public class InMemoryItemStorage implements ItemStorage {
         if (!items.containsKey(item.getId())) {
             throw new ItemNotFoundException(item.getId());
         }
-        Item ItemToUpdate = items.get(item.getId());
-        Optional.ofNullable(item.getName()).ifPresent(Item -> ItemToUpdate.setName(item.getName()));
-        Optional.ofNullable(item.getDescription()).ifPresent(Item -> ItemToUpdate.setDescription(item.getDescription()));
-        Optional.ofNullable(item.getAvailable()).ifPresent(Item -> ItemToUpdate.setAvailable(item.getAvailable()));
-        isItemValid(ItemToUpdate);
-        items.put(ItemToUpdate.getId(), ItemToUpdate);
-        return ItemToUpdate;
+        Item itemToUpdate = items.get(item.getId());
+        Optional.ofNullable(item.getName()).ifPresent(Item -> itemToUpdate.setName(item.getName()));
+        Optional.ofNullable(item.getDescription()).ifPresent(Item -> itemToUpdate.setDescription(item.getDescription()));
+        Optional.ofNullable(item.getAvailable()).ifPresent(Item -> itemToUpdate.setAvailable(item.getAvailable()));
+        isItemValid(itemToUpdate);
+        items.put(itemToUpdate.getId(), itemToUpdate);
+        return itemToUpdate;
     }
 
     @Override
