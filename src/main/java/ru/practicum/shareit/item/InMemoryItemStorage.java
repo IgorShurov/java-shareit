@@ -25,20 +25,14 @@ public class InMemoryItemStorage implements ItemStorage {
 
     @Override
     public List<Item> getItemsByOwner(Long ownerId) {
-        return items.values().stream()
-                .filter(item -> item.getOwnerId().equals(ownerId))
-                .collect(toList());
+        return items.values().stream().filter(item -> item.getOwnerId().equals(ownerId)).collect(toList());
     }
 
     @Override
     public List<Item> getItemsBySearchQuery(String text) {
         List<Item> searchItems = new ArrayList<>();
         if (!text.isBlank()) {
-            searchItems = items.values().stream()
-                    .filter(Item::getAvailable)
-                    .filter(item -> StringUtils.containsIgnoreCase(item.getName(), text) ||
-                            StringUtils.containsIgnoreCase(item.getDescription(), text))
-                    .collect(toList());
+            searchItems = items.values().stream().filter(Item::getAvailable).filter(item -> StringUtils.containsIgnoreCase(item.getName(), text) || StringUtils.containsIgnoreCase(item.getDescription(), text)).collect(toList());
         }
         return searchItems;
     }
@@ -60,7 +54,6 @@ public class InMemoryItemStorage implements ItemStorage {
         Optional.ofNullable(item.getName()).ifPresent(Item -> ItemToUpdate.setName(item.getName()));
         Optional.ofNullable(item.getDescription()).ifPresent(Item -> ItemToUpdate.setDescription(item.getDescription()));
         Optional.ofNullable(item.getAvailable()).ifPresent(Item -> ItemToUpdate.setAvailable(item.getAvailable()));
-
         isItemValid(ItemToUpdate);
         items.put(ItemToUpdate.getId(), ItemToUpdate);
         return ItemToUpdate;
@@ -76,10 +69,7 @@ public class InMemoryItemStorage implements ItemStorage {
 
     @Override
     public void deleteItemsByOwner(Long ownerId) {
-        List<Long> deleteIds = items.values().stream()
-                .filter(item -> item.getOwnerId().equals(ownerId))
-                .map(Item::getId)
-                .collect(toList());
+        List<Long> deleteIds = items.values().stream().filter(item -> item.getOwnerId().equals(ownerId)).map(Item::getId).collect(toList());
         for (Long deleteId : deleteIds) {
             items.remove(deleteId);
         }
