@@ -3,7 +3,6 @@ package ru.practicum.shareit.item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -12,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @AllArgsConstructor
-@Valid
 public class Item {
     private Long id;
     @NotBlank

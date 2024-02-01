@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static ru.practicum.shareit.item.ItemValidator.isItemDtoValid;
@@ -43,6 +44,7 @@ public class ItemController {
 
     @ResponseBody
     @PostMapping
+    @Valid
     public ItemDto create(@RequestBody ItemDto itemDto, @RequestHeader(OWNER_HEADER) Long ownerId) {
         log.info("POST request was received to the endpoint: '/items' to add an item by the owner with ID={}", ownerId);
         ItemDto newItemDto = null;

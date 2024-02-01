@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.user.dto.UserDto;
 
+import javax.validation.Valid;
+
 import static ru.practicum.shareit.user.UserValidator.isUserDtoValid;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping
-    public UserDto create(@RequestBody UserDto userDto) {
+    public @Valid UserDto create(@RequestBody UserDto userDto) {
         log.info("POST request to the endpoint was received: '/users' to add a user");
         isUserDtoValid(userDto);
         return userService.create(userDto);

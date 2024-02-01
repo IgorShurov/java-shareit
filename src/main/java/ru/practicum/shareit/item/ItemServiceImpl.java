@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -31,14 +32,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> getItemsBySearchQuery(String text) {
-        text = text.toLowerCase();
-        return itemStorage.getItemsBySearchQuery(text).stream()
+        return itemStorage.getItemsBySearchQuery(text.toLowerCase()).stream()
                 .map(ItemMapper::toItemDto)
                 .collect(toList());
     }
 
     @Override
-    public ItemDto create(ItemDto itemDto, Long ownerId) {
+    public @Valid ItemDto create(ItemDto itemDto, Long ownerId) {
         return toItemDto(itemStorage.create(toItem(itemDto, ownerId)));
     }
 

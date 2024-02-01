@@ -4,10 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.ItemNotFoundException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 import static ru.practicum.shareit.item.ItemValidator.isItemValid;
@@ -59,19 +56,14 @@ public class InMemoryItemStorage implements ItemStorage {
         if (!items.containsKey(item.getId())) {
             throw new ItemNotFoundException(item.getId());
         }
-        Item oldItem = items.get(item.getId());
-        if (item.getName() == null) {
-            item.setName(oldItem.getName());
-        }
-        if (item.getDescription() == null) {
-            item.setDescription(oldItem.getDescription());
-        }
-        if (item.getAvailable() == null) {
-            item.setAvailable(oldItem.getAvailable());
-        }
-        isItemValid(item);
-        items.put(item.getId(), item);
-        return item;
+        Item ItemToUpdate = items.get(item.getId());
+        Optional.ofNullable(item.getName()).ifPresent(Item -> ItemToUpdate.setName(item.getName()));
+        Optional.ofNullable(item.getDescription()).ifPresent(Item -> ItemToUpdate.setDescription(item.getDescription()));
+        Optional.ofNullable(item.getAvailable()).ifPresent(Item -> ItemToUpdate.setAvailable(item.getAvailable()));
+
+        isItemValid(ItemToUpdate);
+        items.put(ItemToUpdate.getId(), ItemToUpdate);
+        return ItemToUpdate;
     }
 
     @Override

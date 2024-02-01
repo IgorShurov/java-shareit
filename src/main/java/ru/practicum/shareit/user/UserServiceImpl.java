@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserStorage userStorage;
 
+    @Override
     public List<UserDto> getUsers() {
         return userStorage.getUsers().stream()
                 .map(UserMapper::toUserDto)
