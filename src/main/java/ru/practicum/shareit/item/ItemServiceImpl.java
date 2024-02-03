@@ -20,7 +20,6 @@ public class ItemServiceImpl implements ItemService {
     private final ItemStorage itemStorage;
     private final UserService userService;
 
-
     @Override
     public ItemDto getItemById(Long id) {
         return toItemDto(itemStorage.getItemById(id));
