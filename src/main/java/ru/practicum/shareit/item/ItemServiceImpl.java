@@ -39,10 +39,11 @@ public class ItemServiceImpl implements ItemService {
                 .map(ItemMapper::toItemDto)
                 .collect(toList());
     }
+
     @Override
     public ItemDto create(ItemDto itemDto, Long ownerId) {
         ItemDto newItemDto = null;
-        if(userService.getUserById(ownerId) != null) {
+        if (userService.getUserById(ownerId) != null) {
             newItemDto = toItemDto(itemStorage.create(toItem(itemDto, ownerId)));
             isItemDtoValid(newItemDto);
         }
