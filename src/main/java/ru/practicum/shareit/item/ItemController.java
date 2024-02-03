@@ -9,7 +9,6 @@ import ru.practicum.shareit.user.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
-import static ru.practicum.shareit.item.ItemValidator.isItemDtoValid;
 import static ru.practicum.shareit.utilitary.Constants.OWNER_HEADER;
 
 /**
@@ -42,29 +41,19 @@ public class ItemController {
         return itemService.getItemsBySearchQuery(text);
     }
 
-    @ResponseBody
+
     @PostMapping
-    @Valid
-    public ItemDto create(@RequestBody ItemDto itemDto, @RequestHeader(OWNER_HEADER) Long ownerId) {
+    public @Valid ItemDto create(@RequestBody ItemDto itemDto, @RequestHeader(OWNER_HEADER) Long ownerId) {
         log.info("POST request was received to the endpoint: '/items' to add an item by the owner with ID={}", ownerId);
-        ItemDto newItemDto = null;
-        if (userService.getUserById(ownerId) != null) {
-            newItemDto = itemService.create(itemDto, ownerId);
-        }
-        isItemDtoValid(newItemDto);
-        return newItemDto;
+        return itemService.create(itemDto, ownerId);
     }
 
-    @ResponseBody
     @PatchMapping("/{itemId}")
     public ItemDto update(@RequestBody ItemDto itemDto, @PathVariable Long itemId, @RequestHeader(OWNER_HEADER) Long ownerId) {
         log.info("PATCH request was received to the endpoint: '/items' to update the item with ID={}", itemId);
-        ItemDto newItemDto = null;
-        if (userService.getUserById(ownerId) != null) {
-            newItemDto = itemService.update(itemDto, ownerId, itemId);
-        }
-        return newItemDto;
+        return itemService.update(itemDto, ownerId, itemId);
     }
+
 
     @DeleteMapping("/{itemId}")
     public ItemDto delete(@PathVariable Long itemId, @RequestHeader(OWNER_HEADER) Long ownerId) {

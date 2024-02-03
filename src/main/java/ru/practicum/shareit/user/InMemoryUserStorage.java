@@ -4,10 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.practicum.shareit.exception.UserAlreadyExistException;
 import ru.practicum.shareit.exception.UserNotFoundException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ru.practicum.shareit.user.UserValidator.isUserValid;
 
@@ -50,22 +47,18 @@ public class InMemoryUserStorage implements UserStorage {
         if (!users.containsKey(user.getId())) {
             throw new UserNotFoundException(user.getId());
         }
-        User oldUser = users.get(user.getId());
-        if (user.getName() == null) {
-            user.setName(oldUser.getName());
-        }
-        if (user.getEmail() == null) {
-            user.setEmail(oldUser.getEmail());
-        }
+        User userToUpdate = users.get(user.getId());
+        Optional.ofNullable(user.getName()).ifPresent(userToUpdate::setName);
         if (users.values().stream()
                 .filter(u -> u.getEmail().equals(user.getEmail()))
                 .allMatch(u -> u.getId().equals(user.getId()))) {
-            isUserValid(user);
-            users.put(user.getId(), user);
+            Optional.ofNullable(user.getEmail()).ifPresent(userToUpdate::setEmail);
+            isUserValid(userToUpdate);
+            users.put(userToUpdate.getId(), userToUpdate);
         } else {
-            throw new UserAlreadyExistException(user.getEmail());
+            throw new UserAlreadyExistException(userToUpdate.getEmail());
         }
-        return user;
+        return userToUpdate;
     }
 
     @Override

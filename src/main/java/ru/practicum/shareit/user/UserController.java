@@ -36,7 +36,6 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-    @ResponseBody
     @PostMapping
     public @Valid UserDto create(@RequestBody UserDto userDto) {
         log.info("POST request to the endpoint was received: '/users' to add a user");
@@ -44,7 +43,6 @@ public class UserController {
         return userService.create(userDto);
     }
 
-    @ResponseBody
     @PatchMapping("/{userId}")
     public UserDto update(@RequestBody UserDto userDto, @PathVariable Long userId) {
         log.info("PATCH request to the endpoint was received: '/users' to update a user with ID={}", userId);
