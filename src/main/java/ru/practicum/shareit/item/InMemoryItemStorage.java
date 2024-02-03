@@ -32,8 +32,8 @@ public class InMemoryItemStorage implements ItemStorage {
     public List<Item> getItemsBySearchQuery(String text) {
         List<Item> searchItems = new ArrayList<>();
         if (!text.isBlank()) {
-            searchItems = items.values().stream().filter(Item::getAvailable).
-                    filter(item -> StringUtils.containsIgnoreCase(item.getName(), text) ||
+            searchItems = items.values().stream().filter(Item::getAvailable)
+                    .filter(item -> StringUtils.containsIgnoreCase(item.getName(), text) ||
                             StringUtils.containsIgnoreCase(item.getDescription(), text)).collect(toList());
         }
         return searchItems;
@@ -71,8 +71,8 @@ public class InMemoryItemStorage implements ItemStorage {
 
     @Override
     public void deleteItemsByOwner(Long ownerId) {
-        List<Long> deleteIds = items.values().stream().
-                filter(item -> item.getOwnerId().equals(ownerId)).map(Item::getId).collect(toList());
+        List<Long> deleteIds = items.values().stream()
+                .filter(item -> item.getOwnerId().equals(ownerId)).map(Item::getId).collect(toList());
         for (Long deleteId : deleteIds) {
             items.remove(deleteId);
         }
