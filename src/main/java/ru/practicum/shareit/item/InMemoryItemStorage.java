@@ -34,7 +34,7 @@ public class InMemoryItemStorage implements ItemStorage {
         if (!text.isBlank()) {
             searchItems = items.values().stream().filter(Item::getAvailable).
                     filter(item -> StringUtils.containsIgnoreCase(item.getName(), text) ||
-                    StringUtils.containsIgnoreCase(item.getDescription(), text)).collect(toList());
+                            StringUtils.containsIgnoreCase(item.getDescription(), text)).collect(toList());
         }
         return searchItems;
     }
