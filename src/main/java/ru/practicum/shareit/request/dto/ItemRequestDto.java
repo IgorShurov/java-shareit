@@ -1,20 +1,16 @@
 package ru.practicum.shareit.request.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import ru.practicum.shareit.user.entity.User;
 
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
-/**
- * TODO Sprint add-item-requests.
- */
 @Data
-@AllArgsConstructor
+@Builder
 public class ItemRequestDto {
-    @NotBlank
+    private Integer id;
     private String description;
-    @NotBlank
-    private String requestorName;
-    private LocalDateTime created;
+    private User requester;
+    private Date created;
 }

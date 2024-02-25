@@ -1,15 +1,16 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.dao;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.UserAlreadyExistException;
 import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.user.entity.User;
 
 import java.util.*;
 
 import static ru.practicum.shareit.user.UserValidator.isUserValid;
 
-@Component("InMemoryUserStorage")
-public class InMemoryUserStorage implements UserStorage {
+@Repository
+public class UserDaoImpl implements UserDao {
 
     public Map<Long, User> users = new HashMap<>();
     private Long id = 0L;
@@ -24,7 +25,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public User getById(Long userId) {
         if (!users.containsKey(userId)) {
             throw new UserNotFoundException(userId);
         }

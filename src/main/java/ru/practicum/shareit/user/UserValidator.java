@@ -2,6 +2,7 @@ package ru.practicum.shareit.user;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.entity.User;
 
 import javax.validation.ValidationException;
 
