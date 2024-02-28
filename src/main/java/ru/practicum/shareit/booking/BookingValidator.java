@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.exception.BookingValidationException;
 import ru.practicum.shareit.exception.ItemValidationException;

@@ -6,6 +6,10 @@ import ru.practicum.shareit.user.entity.User;
 
 import javax.persistence.*;
 
+/**
+ * Класс описывающий модель Item
+ */
+
 @Setter
 @Getter
 @Builder

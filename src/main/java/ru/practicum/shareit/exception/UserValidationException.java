@@ -11,3 +11,4 @@ public class UserValidationException extends ValidationException {
         log.error("ERROR: " + message);
     }
 }
+

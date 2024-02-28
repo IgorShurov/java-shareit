@@ -4,6 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * Класс описывающий модель User
+ */
+
 @Data
 @Builder
 @AllArgsConstructor

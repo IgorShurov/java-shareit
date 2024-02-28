@@ -18,7 +18,7 @@ public class UserMapper {
     }
 
     public static User fromUserDto(UserDto userDto) {
-        return User.builder()
+        return ru.practicum.shareit.user.entity.User.builder()
                 .id(userDto.getId())
                 .name(userDto.getName())
                 .email(userDto.getEmail())
@@ -27,7 +27,7 @@ public class UserMapper {
 
     public static List<UserDto> toUserDtoList(Iterable<User> users) {
         List<UserDto> result = new ArrayList<>();
-        for (User user : users) {
+        for (ru.practicum.shareit.user.entity.User user : users) {
             result.add(toUserDto(user));
         }
         return result;

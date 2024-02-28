@@ -25,11 +25,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public List<UserDto> getUsers() {
         return toUserDtoList(userRepository.findAll());
     }
 
     @Override
+    @Transactional
     public UserDto getUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
