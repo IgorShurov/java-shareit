@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -18,9 +19,10 @@ import static ru.practicum.shareit.booking.BookingValidator.isBookingDtoValid;
 @Validated
 @RestController
 @RequestMapping(path = "/bookings")
+@RequiredArgsConstructor
 public class BookingController {
-    @Autowired
-    private BookingService bookingService;
+
+    private final BookingService bookingService;
     private static final String HEADER_USER_ID = Constants.HEADER_USER_ID;
 
     @PostMapping()
