@@ -122,50 +122,50 @@ public class BookingServiceImpl implements BookingService {
         switch (State.getEnumValue(state.toUpperCase())) {
             case ALL:
                 if (isOwner) {
-                    return toBookingDtoList( bookingRepository.findAllByItemIdInOrderByStartDesc(pageable, itemsId));
+                    return toBookingDtoList(bookingRepository.findAllByItemIdInOrderByStartDesc(pageable, itemsId));
                 } else {
-                    return toBookingDtoList( bookingRepository.findAllByBookerIdOrderByStartDesc(pageable, userId));
+                    return toBookingDtoList(bookingRepository.findAllByBookerIdOrderByStartDesc(pageable, userId));
                 }
             case CURRENT:
                 if (isOwner) {
-                    return toBookingDtoList( bookingRepository.findAllByItemIdInAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
-                                            pageable, itemsId, LocalDateTime.now(), LocalDateTime.now()));
+                    return toBookingDtoList(bookingRepository.findAllByItemIdInAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
+                            pageable, itemsId, LocalDateTime.now(), LocalDateTime.now()));
                 } else {
-                    return toBookingDtoList( bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
-                                            pageable, userId, LocalDateTime.now(), LocalDateTime.now()));
+                    return toBookingDtoList(bookingRepository.findAllByBookerIdAndStartIsBeforeAndEndIsAfterOrderByStartDesc(
+                            pageable, userId, LocalDateTime.now(), LocalDateTime.now()));
                 }
             case PAST:
                 if (isOwner) {
-                    return toBookingDtoList( bookingRepository
-                                    .findAllByItemIdInAndEndIsBeforeOrderByStartDesc(
-                                            pageable, itemsId, LocalDateTime.now()));
+                    return toBookingDtoList(bookingRepository
+                            .findAllByItemIdInAndEndIsBeforeOrderByStartDesc(
+                                    pageable, itemsId, LocalDateTime.now()));
                 } else {
-                    return toBookingDtoList( bookingRepository.findAllByBookerIdAndEndIsBeforeOrderByStartDesc(
-                                            pageable, userId, LocalDateTime.now()));
+                    return toBookingDtoList(bookingRepository.findAllByBookerIdAndEndIsBeforeOrderByStartDesc(
+                            pageable, userId, LocalDateTime.now()));
                 }
             case FUTURE:
                 if (isOwner) {
-                    return toBookingDtoList( bookingRepository
-                                    .findAllByItemIdInAndStartIsAfterOrderByStartDesc(pageable, itemsId, LocalDateTime.now()));
+                    return toBookingDtoList(bookingRepository
+                            .findAllByItemIdInAndStartIsAfterOrderByStartDesc(pageable, itemsId, LocalDateTime.now()));
                 } else {
-                    return toBookingDtoList( bookingRepository
-                                    .findAllByBookerIdAndStartIsAfterOrderByStartDesc(pageable, userId, LocalDateTime.now()));
+                    return toBookingDtoList(bookingRepository
+                            .findAllByBookerIdAndStartIsAfterOrderByStartDesc(pageable, userId, LocalDateTime.now()));
                 }
             case WAITING:
                 if (isOwner) {
-                    return toBookingDtoList( bookingRepository
-                                    .findAllByItemIdInAndStatusIsOrderByStartDesc(pageable, itemsId, Status.WAITING));
+                    return toBookingDtoList(bookingRepository
+                            .findAllByItemIdInAndStatusIsOrderByStartDesc(pageable, itemsId, Status.WAITING));
                 } else {
-                    return toBookingDtoList( bookingRepository
-                                    .findAllByBookerIdAndStatusIsOrderByStartDesc(pageable, userId, Status.WAITING));
+                    return toBookingDtoList(bookingRepository
+                            .findAllByBookerIdAndStatusIsOrderByStartDesc(pageable, userId, Status.WAITING));
                 }
             case REJECTED:
                 if (isOwner) {
-                    return toBookingDtoList( bookingRepository
-                                    .findAllByItemIdInAndStatusIsOrderByStartDesc(pageable, itemsId, Status.REJECTED));
+                    return toBookingDtoList(bookingRepository
+                            .findAllByItemIdInAndStatusIsOrderByStartDesc(pageable, itemsId, Status.REJECTED));
                 } else {
                     return toBookingDtoList(bookingRepository
-                                    .findAllByBookerIdAndStatusIsOrderByStartDesc(pageable, userId, Status.REJECTED));
+                            .findAllByBookerIdAndStatusIsOrderByStartDesc(pageable, userId, Status.REJECTED));
                 }
             default:
                 throw new IncorrectStatusException("Unknown state: " + state);

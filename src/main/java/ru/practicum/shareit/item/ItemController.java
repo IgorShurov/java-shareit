@@ -26,24 +26,19 @@ public class ItemController {
     private static final String HEADER_USER_ID = Constants.HEADER_USER_ID;
 
     @GetMapping("/{itemId}")
-    public ItemDto getItemById(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId,
-                               @PathVariable @Min(1) Long itemId) {
+    public ItemDto getItemById(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId, @PathVariable @Min(1) Long itemId) {
         log.info("GET: request was received to the endpoint: '/items' to receive an item with ID={}", itemId);
         return itemService.getItemsByOwner(itemId, ownerId);
     }
 
     @GetMapping
-    public List<ItemDto> getItemsByOwner(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId,
-                                         @RequestParam(defaultValue = "0") @Min(0) Integer from,
-                                         @RequestParam(defaultValue = "10") @Min(1) @Max(20) Integer size) {
+    public List<ItemDto> getItemsByOwner(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId, @RequestParam(defaultValue = "0") @Min(0) Integer from, @RequestParam(defaultValue = "10") @Min(1) @Max(20) Integer size) {
         log.info("GET: request was received to the endpoint: '/items' to receive all the owner's items with ID={}", ownerId);
         return itemService.getItemsByOwner(ownerId, from, size);
     }
 
     @GetMapping("search")
-    public List<ItemDto> searchItems(@RequestParam String text,
-                                     @RequestParam(defaultValue = "0") @Min(0) Integer from,
-                                     @RequestParam(defaultValue = "10") @Min(1) @Max(20) Integer size) {
+    public List<ItemDto> searchItems(@RequestParam String text, @RequestParam(defaultValue = "0") @Min(0) Integer from, @RequestParam(defaultValue = "10") @Min(1) @Max(20) Integer size) {
         log.info("GET: request was received to the endpoint: '/items/search' to search for an item with text={}", text);
         return itemService.search(text, from, size);
     }
@@ -56,9 +51,7 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId,
-                          @PathVariable @Min(1) Long itemId,
-                          @RequestBody ItemDto itemDto) {
+    public ItemDto update(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId, @PathVariable @Min(1) Long itemId, @RequestBody ItemDto itemDto) {
 
         log.info("PATCH: request was received to the endpoint: '/items' to update the item with ID={}", itemId);
         return itemService.update(itemDto, itemId, ownerId);
@@ -71,9 +64,7 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto addComment(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId,
-                                 @PathVariable @Min(1) Long itemId,
-                                 @RequestBody @Validated CommentDto commentDto) {
+    public CommentDto addComment(@RequestHeader(HEADER_USER_ID) @Min(1) Long ownerId, @PathVariable @Min(1) Long itemId, @RequestBody @Validated CommentDto commentDto) {
 
         log.info("POST: request was received to the endpoint: '/{itemId}/comment' user {} add comment for Item {}", ownerId, itemId);
         return itemService.addComment(ownerId, itemId, commentDto);
