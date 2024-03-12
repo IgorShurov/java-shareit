@@ -10,7 +10,6 @@ public interface ItemService {
 
     ItemDto getItemsByOwner(Long itemId, Long ownerId);
 
-
     List<ItemDto> getItemsByOwner(Long ownerId, Integer from, Integer size);
 
     List<ItemDto> search(String text, Integer from, Integer size);
