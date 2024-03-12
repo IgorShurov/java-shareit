@@ -20,7 +20,6 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -159,7 +158,6 @@ public class BookingControllerTest {
         verify(bookingService, times(0)).addBooking(any(BookingDto.class), anyLong());
         bookingDto.setEnd(LocalDateTime.now().plusDays(2));
     }
-
 
 
     @Test
