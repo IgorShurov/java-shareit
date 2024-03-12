@@ -24,7 +24,6 @@ import ru.practicum.shareit.request.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.entity.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
