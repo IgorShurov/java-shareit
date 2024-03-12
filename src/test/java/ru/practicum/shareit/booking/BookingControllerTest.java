@@ -20,6 +20,7 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -103,6 +104,24 @@ public class BookingControllerTest {
 
     @Test
     @SneakyThrows
+    public void addBookingWithIncorrectData() {
+        //when
+        bookingDto.setStart(null);
+        mvc.perform(
+                        post("/bookings")
+                                .content(objectMapper.writeValueAsString(bookingDto))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header(HEADER_USER_ID, 0))
+                .andDo(print())
+                //then
+                .andExpectAll(
+                        status().isBadRequest()
+                );
+        verify(bookingService, times(0)).addBooking(any(BookingDto.class), anyLong());
+    }
+
+    @Test
+    @SneakyThrows
     public void addBookingWithIncorrectStart() {
         //given
         bookingDto.setStart(LocalDateTime.now().minusDays(1));
@@ -140,6 +159,8 @@ public class BookingControllerTest {
         verify(bookingService, times(0)).addBooking(any(BookingDto.class), anyLong());
         bookingDto.setEnd(LocalDateTime.now().plusDays(2));
     }
+
+
 
     @Test
     @SneakyThrows

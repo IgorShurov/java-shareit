@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 
 import static ru.practicum.shareit.booking.dto.BookingMapper.toBookingShortDto;
 import static ru.practicum.shareit.comment.dto.CommentMapper.toCommentDtoList;
-import static ru.practicum.shareit.item.ItemValidator.isItemValid;
 import static ru.practicum.shareit.item.dto.ItemMapper.*;
 
 @Service
@@ -96,8 +95,6 @@ public class ItemServiceImpl implements ItemService {
         if (item.getAvailable() != null) {
             newItem.setAvailable(item.getAvailable());
         }
-
-        isItemValid(newItem);
 
         itemRepository.save(newItem);
 
