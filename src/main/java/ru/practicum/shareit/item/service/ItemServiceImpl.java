@@ -15,7 +15,7 @@ import ru.practicum.shareit.comment.entity.Comment;
 import ru.practicum.shareit.comment.repository.CommentRepository;
 import ru.practicum.shareit.exception.CommentValidationException;
 import ru.practicum.shareit.exception.ItemNotFoundException;
-import ru.practicum.shareit.exception.RequestNotFoundException;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
@@ -58,7 +58,7 @@ public class ItemServiceImpl implements ItemService {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         Item item = fromEntityItemDto(itemDto, user);
         if (itemDto.getRequestId() != null) {
-            item.setRequest(itemRequestRepository.findById(itemDto.getRequestId()).orElseThrow(() -> new RequestNotFoundException(itemDto.getRequestId())));
+            item.setRequest(itemRequestRepository.findById(itemDto.getRequestId()).orElseThrow(() -> new NotFoundException("not found" + itemDto.getRequestId())));
         }
         itemRepository.save(item);
 
