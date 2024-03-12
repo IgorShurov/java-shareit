@@ -30,11 +30,8 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping()
-    public BookingOutDto addBookings(@RequestHeader(Constants.HEADER_USER_ID) @Min(1) Long userId, @RequestBody BookingDto bookingDto) {
+    public BookingOutDto addBookings(@RequestHeader(Constants.HEADER_USER_ID) @Min(1) Long userId, @RequestBody @Valid BookingDto bookingDto) {
         log.info("POST: request to the endpoint was received: '/bookings' user {}, add new booking {}", userId, "bookingDto.getName()");
-        if (bookingDto.getStart() == null || bookingDto.getEnd() == null) {
-            throw new ValidationException("Booking: Dates are null!");
-        }
         if (bookingDto.getEnd().isBefore(bookingDto.getStart()) || bookingDto.getStart().isEqual(bookingDto.getEnd()) || bookingDto.getEnd().isBefore(LocalDateTime.now()) || bookingDto.getStart().isBefore(LocalDateTime.now())) {
             throw new ValidationException("Booking: Problem in dates");
         }

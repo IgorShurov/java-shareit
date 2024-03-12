@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 @Data
 public class BookingDto {
     private Long itemId;
+    @NotNull
     private LocalDateTime start;
+    @NotNull
     private LocalDateTime end;
     private Status status;
 }
