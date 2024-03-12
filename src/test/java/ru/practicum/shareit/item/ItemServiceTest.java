@@ -146,6 +146,15 @@ public class ItemServiceTest {
     }
 
     @Test
+    public void updateItemWithWrongOwner() {
+        userRepository.save(user1);
+        userRepository.save(user2);
+        itemService.create(item1Dto, user1.getId());
+        assertThatThrownBy(() -> itemService.update(item1UpdateDto, 1L, user2.getId()))
+                .isInstanceOf(ItemNotFoundException.class);
+    }
+
+    @Test
     public void updateItemWithOtherUser() {
         //given
         userRepository.save(user1);
@@ -171,6 +180,16 @@ public class ItemServiceTest {
     }
 
     @Test
+    public void getItemByNotExistingUserId() {
+        userRepository.save(user1);
+
+        var savedItem = itemService.create(item1Dto, user1.getId());
+
+        assertThatThrownBy(() -> itemService.getItemsByOwner(savedItem.getId(), 99L))
+                .isInstanceOf(UserNotFoundException.class);
+    }
+
+    @Test
     void getItemByIdWithLastAndNextBookings() {
         //given
         userRepository.save(user1);
@@ -190,6 +209,29 @@ public class ItemServiceTest {
         assertThat(findItem.getLastBooking().getId()).isEqualTo(lastBooking.getId());
         assertThat(findItem.getNextBooking().getBookerId()).isEqualTo(user2.getId());
         assertThat(findItem.getNextBooking().getId()).isEqualTo(nextBooking.getId());
+    }
+
+    @Test
+    void getItemByIdWithComment() {
+        userRepository.save(user1);
+        userRepository.save(user2);
+        CommentDto comment = CommentDto.builder()
+                .text("text")
+                .authorName("testname")
+                .build();
+        var savedItem = itemService.create(item1Dto, user1.getId());
+        createLastAndNextBookings(savedItem);
+        bookingRepository.save(lastBooking);
+        bookingRepository.save(nextBooking);
+        itemService.addComment(user2.getId(), savedItem.getId(), comment);
+
+        var findItem = itemService.getItemsByOwner(savedItem.getId(), user1.getId());
+
+        assertThat(findItem.getId()).isEqualTo(savedItem.getId());
+        assertThat(findItem.getName()).isEqualTo(item1Dto.getName());
+        assertThat(findItem.getDescription()).isEqualTo(item1Dto.getDescription());
+        assertThat(findItem.getAvailable()).isEqualTo(item1Dto.getAvailable());
+        assertThat(findItem.getComments()).isNotEmpty();
     }
 
     @Test
@@ -249,6 +291,13 @@ public class ItemServiceTest {
     }
 
     @Test
+    public void getFoundItemsWithEmptyRequest() {
+        var findItems = itemService.search("", 0, 2);
+
+        assertThat(findItems).isEmpty();
+    }
+
+    @Test
     public void addComment() {
         //given
         CommentDto commentDto = CommentDto.builder()
@@ -290,6 +339,22 @@ public class ItemServiceTest {
                 () -> itemService.addComment(user2.getId(), savedItem1.getId(), commentDto)
                 //then
         ).isInstanceOf(CommentValidationException.class);
+    }
+
+    @Test
+    public void addCommentForWithEmptyText() {
+        CommentDto commentDto = CommentDto.builder()
+                .text("")
+                .build();
+        userRepository.save(user1);
+        userRepository.save(user2);
+        var savedItem1 = itemService.create(item1Dto, user1.getId());
+        createLastAndNextBookings(savedItem1);
+        bookingRepository.save(lastBooking);
+
+        assertThat(lastBooking.equals(nextBooking)).isFalse();
+        assertThatThrownBy(() -> itemService.addComment(2L, user2.getId(), commentDto))
+                .isInstanceOf(CommentValidationException.class);
     }
 
     @Test
@@ -348,5 +413,16 @@ public class ItemServiceTest {
         nextBooking.setItem(bookingItem);
         nextBooking.setBooker(user2);
         nextBooking.setStatus(Status.APPROVED);
+    }
+
+    @Test
+    public void deleteUserById() {
+        var savedUser = userRepository.save(user1);
+        var savedItem = itemService.create(item1Dto, savedUser.getId());
+
+        itemService.delete(savedItem.getId());
+
+        assertThatThrownBy(() -> itemService.getItemsByOwner(savedUser.getId(), savedItem.getId()))
+                .isInstanceOf(ItemNotFoundException.class);
     }
 }

@@ -93,6 +93,42 @@ public class ItemControllerTest {
 
     @SneakyThrows
     @Test
+    public void createItemWithEmptyName() {
+        item1.setName("         ");
+
+        mvc.perform(post("/items")
+                        .header(HEADER_USER_ID, 1)
+                        .content(objectMapper.writeValueAsString(item1))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(status().isBadRequest());
+        verify(itemService, times(0)).create(any(ItemDto.class), anyLong());
+    }
+
+    @SneakyThrows
+    @Test
+    public void createItemWithEmptyDescription() {
+        item1.setDescription("        ");
+
+        mvc.perform(post("/items")
+                        .header(HEADER_USER_ID, 1)
+                        .content(objectMapper.writeValueAsString(item1))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpectAll(status().isBadRequest());
+        verify(itemService, times(0)).create(any(ItemDto.class), anyLong());
+    }
+
+    @Test
+    public void deleteUser() throws Exception {
+        mvc.perform(delete("/items/1"))
+                .andDo(print())
+                .andExpectAll(status().isOk());
+        verify(itemService, times(1)).delete(1L);
+    }
+
+    @SneakyThrows
+    @Test
     public void createItemWithIncorrectAvailable() {
         //given
         item1.setAvailable(null);

@@ -40,7 +40,6 @@ public class BookingControllerTest {
     private static BookingDto bookingDto;
     private List<BookingOutDto> bookingListDto;
     private static BookingOutDto bookingOutDto;
-    //private final String userIdHeader = "X-Sharer-User-Id";
 
     @BeforeEach
     public void setUp() {
@@ -100,6 +99,46 @@ public class BookingControllerTest {
                         status().isBadRequest()
                 );
         verify(bookingService, times(0)).addBooking(any(BookingDto.class), anyLong());
+    }
+
+    @Test
+    @SneakyThrows
+    public void addBookingWithIncorrectStart() {
+        //given
+        bookingDto.setStart(LocalDateTime.now().minusDays(1));
+        //when
+        mvc.perform(
+                        post("/bookings")
+                                .content(objectMapper.writeValueAsString(bookingDto))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header(HEADER_USER_ID, 1))
+                .andDo(print())
+                //then
+                .andExpectAll(
+                        status().isBadRequest()
+                );
+        verify(bookingService, times(0)).addBooking(any(BookingDto.class), anyLong());
+        bookingDto.setStart(LocalDateTime.now().plusDays(1));
+    }
+
+    @Test
+    @SneakyThrows
+    public void addBookingWithIncorrectEnd() {
+        //given
+        bookingDto.setEnd(LocalDateTime.now().minusDays(1));
+        //when
+        mvc.perform(
+                        post("/bookings")
+                                .content(objectMapper.writeValueAsString(bookingDto))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header(HEADER_USER_ID, 1))
+                .andDo(print())
+                //then
+                .andExpectAll(
+                        status().isBadRequest()
+                );
+        verify(bookingService, times(0)).addBooking(any(BookingDto.class), anyLong());
+        bookingDto.setEnd(LocalDateTime.now().plusDays(2));
     }
 
     @Test

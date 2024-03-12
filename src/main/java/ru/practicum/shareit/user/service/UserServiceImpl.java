@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static ru.practicum.shareit.user.UserValidator.isUserDtoValid;
-import static ru.practicum.shareit.user.UserValidator.isUserValid;
 import static ru.practicum.shareit.user.dto.UserMapper.fromUserDto;
 import static ru.practicum.shareit.user.dto.UserMapper.toUserDtoList;
 
@@ -71,7 +70,6 @@ public class UserServiceImpl implements UserService {
             userToUpdate.setEmail(user.getEmail());
         }
 
-        isUserValid(userToUpdate);
         userRepository.save(userToUpdate);
         return UserMapper.toUserDto(userToUpdate);
     }
