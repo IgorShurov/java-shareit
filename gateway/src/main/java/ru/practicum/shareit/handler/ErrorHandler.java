@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.practicum.shareit.handler.exception.StateValidationException;
 import ru.practicum.shareit.handler.response.StateErrorResponse;
 
-import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 
 @Slf4j
 @RestControllerAdvice("ru.practicum.shareit")
@@ -31,8 +31,8 @@ public class ErrorHandler {
                 .body(new StateErrorResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    private ResponseEntity<String> handleException(ConstraintViolationException exception) {
+    @ExceptionHandler(ValidationException.class)
+    private ResponseEntity<String> handleException(ValidationException exception) {
         log.debug("Получен статус 400 BAD_REQUEST {}", exception.getMessage(), exception);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
